@@ -50,7 +50,7 @@ class FreqBasicBlock(nn.Module):
         self.conv2 = build_conv_layer(
             conv_cfg, planes, planes, 3, padding=1, bias=False)
         self.add_module(self.norm2_name, norm2)
-        c2wh = dict([(64,56), (128,28), (256,14), (512,7)])
+        c2wh = dict([(64,56), (128,28), (256,14), (512,7)])###新增
 
         self.relu = nn.ReLU(inplace=True)
         self.att = MultiSpectralAttentionLayer(planes * 4, c2wh[planes], c2wh[planes],  reduction = reduction, freq_sel_method = 'top16')
@@ -81,7 +81,7 @@ class FreqBasicBlock(nn.Module):
 
             out = self.conv2(out)
             out = self.norm2(out)
-            out = self.att(out)
+            out = self.att(out)###新增
 
             if self.downsample is not None:
                 identity = self.downsample(x)
@@ -143,7 +143,7 @@ class FreqBottleneck(nn.Module):
         self.with_dcn = dcn is not None
         self.plugins = plugins
         self.with_plugins = plugins is not None
-        self.att = MultiSpectralAttentionLayer(planes * 4, c2wh[planes], c2wh[planes],  reduction = reduction, freq_sel_method = 'top16')
+        self.att = MultiSpectralAttentionLayer(planes * 4, c2wh[planes], c2wh[planes],  reduction = reduction, freq_sel_method = 'top16')###新增
 
         if self.with_plugins:
             # collect plugins for conv1/conv2/conv3
@@ -289,7 +289,7 @@ class FreqBottleneck(nn.Module):
 
             out = self.conv3(out)
             out = self.norm3(out)
-            out = self.att(out)
+            out = self.att(out)###新增
 
             if self.with_plugins:
                 out = self.forward_plugin(out, self.after_conv3_plugin_names)
@@ -374,7 +374,7 @@ class FreqNet(nn.Module):
                  in_channels=3,
                  stem_channels=None,
                  base_channels=64,
-                 reduction=16,
+                 reduction=16,##新增
                  num_stages=4,
                  strides=(1, 2, 2, 2),
                  dilations=(1, 1, 1, 1),
